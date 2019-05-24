@@ -1,3 +1,21 @@
+<div class="row">
+  <div class="col-2">
+    <%= link_to "Baixar CSV", admin_document_clients_documents_path(format: "csv"), class: 'btn btn-link' %>
+  </div>
+  <div class="col-10">
+    <%= form_tag import_admin_document_clients_documents_path, multipart: true do %>
+
+      <div class="custom-file">
+        <%= file_field_tag :csv, class: 'custom-file-input' %>
+        <label class="custom-file-label">Selecionar Arquivo</label>
+      </div>
+      <div class="text-right">
+        <%= submit_tag "Importar CSV", class: 'btn btn-info my-2' %>
+      </div>
+
+    <% end %>
+  </div>
+</div>
 <%= simple_form_for [:admin, @clients_documents.document, @clients_documents],
                     html: { multipart: true } do |f| %>
   <div class="form-row">
@@ -7,12 +25,12 @@
     <% participant_hours_fields = ParticipantsFieldsDecorator.new(@clients_documents.participant_hours_fields) %>
     <%= f.simple_fields_for(participant_hours_fields) do |field| %>
       <% participant_hours_fields.each do |key, value| %>
-        <div class=" form-group integer col-lg-1 col-sm-6">
+        <div class=" form-group integer col-lg-1 col-sm-6 mt-auto">
           <%= field.input key do %>
 
             <%= field.input_field key,
                                   class: ('form-control integer ' + field_invalid(value, @clients_documents)),
-                                  as: :integer            %>
+                                  as: :integer %>
             <% if value.blank? %>
               <%= f.error :participant_hours_fields, class: 'invalid-feedback' %>
             <% end %>
@@ -24,6 +42,8 @@
   <div class='d-flex'>
     <%= link_to t('helpers.links.all.m', model: t('activerecord.models.document.other')),
                 admin_documents_path, class: 'btn btn-secondary' %>
+
+
     <% if !f.object.new_record? %>
       <%= link_to new_admin_document_clients_document_path(@clients_documents.document),
                   method: :get, class: 'icon',

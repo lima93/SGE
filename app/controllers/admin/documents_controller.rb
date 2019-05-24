@@ -5,7 +5,9 @@ class Admin::DocumentsController < Admin::BaseController
   before_action :load_users, only: [:new, :create, :edit, :update]
 
   def index
-    @documents = Document.page(params[:page]).per(10).search(params[:term])
+    @documents = Document.joins(:users_documents)
+                     .where(users_documents: { user_id: current_user.id })
+                     .page(params[:page]).per(10).search(params[:term])
     return unless @documents.empty?
 
     flash.now[:notice] = t('flash.actions.search.empty.m',
@@ -18,6 +20,7 @@ class Admin::DocumentsController < Admin::BaseController
 
   def create
     @document = Document.new(document_params)
+    @document.user_id = current_user.id
     if @document.save
       flash[:success] = t('flash.actions.create.m',
                           model: t('activerecord.models.document.one'))
@@ -31,9 +34,13 @@ class Admin::DocumentsController < Admin::BaseController
   def show; end
 
   def edit
-    return unless @document.request_signature?
-
-    flash[:alert] = t('flash.actions.request_signature.update')
+    if @document.request_signature?
+      flash[:alert] = t('flash.actions.request_signature.update')
+      redirect_to admin_documents_path
+    elsif @document.user_id != current_user.id
+      flash[:alert] = "Não tem permissão"
+      redirect_to admin_documents_path
+    end
   end
 
   def update
@@ -58,10 +65,7 @@ class Admin::DocumentsController < Admin::BaseController
   end
 
   def subscriptions
-    @user_documents = UsersDocument.joins(:document).where(user_id: current_user,
-                                                           subscription: false,
-                                                           documents:
-                                                               { request_signature: true })
+    @user_documents = User.signature(current_user)
     return unless @user_documents.empty?
 
     flash[:notice] = t('flash.actions.sign.empty.m', model: t('activerecord.models.document.one'))

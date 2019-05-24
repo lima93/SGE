@@ -8,6 +8,7 @@ class Admin::ClientsDocumentsController < Admin::BaseController
 
   def new
     document = Document.find(params[:document_id])
+
     if document.request_signature?
       flash[:alert] = t('flash.actions.request_signature.update')
       redirect_to admin_documents_path
@@ -15,6 +16,10 @@ class Admin::ClientsDocumentsController < Admin::BaseController
       @clients_documents = document.clients_documents.build
       @clients_documents.participant_hours_fields = ClientsDocument.hash_fields(params[
                                                                                     :document_id])
+      respond_to do |format|
+        format.html
+        format.csv { send_data ClientsDocument.csv_to(document.id) }
+      end
     end
   end
 
@@ -59,10 +64,20 @@ class Admin::ClientsDocumentsController < Admin::BaseController
     redirect_to new_admin_document_clients_document_path(params[:document_id])
   end
 
+  def import
+    if ClientsDocument.import(params[:csv], params[:document_id])
+      flash[:success] = I18n.t('flash.actions.create.m',
+                               model: t('activerecord.models.clients_document.one'))
+    else
+      flash.now[:error] = t('flash.actions.errors')
+    end
+    redirect_to new_admin_document_clients_document_path(params[:document_id])
+  end
+
   private
 
   def clients_document_params
-    params.require(:clients_document).permit(:id, :client_id, :document_id,
+    params.require(:clients_document).permit(:id, :client_id, :document_id, :csv,
                                              participant_hours_fields: {})
   end
 
@@ -71,7 +86,8 @@ class Admin::ClientsDocumentsController < Admin::BaseController
   end
 
   def load_clients_index
-    @clients_document_show = ClientsDocument.where(document_id: params[:document_id])
-                                            .order(created_at: :desc)
+    @clients_document_show = ClientsDocument
+                                 .where(document_id: params[:document_id])
+                                 .order(created_at: :desc)
   end
 end

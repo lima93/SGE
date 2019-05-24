@@ -38,8 +38,10 @@ class User < ApplicationRecord
   end
 
   def self.signature(user)
-    user.documents.map(&:request_signature).count(true).positive? &&
-      user.users_documents.map(&:subscription).count(false).positive?
+    return UsersDocument.joins(:document).where(user_id: user,
+                                         subscription: false,
+                                         documents:
+                                             { request_signature: true })
   end
 
   def self.auth(username, password)

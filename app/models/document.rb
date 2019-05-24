@@ -10,7 +10,6 @@ class Document < ApplicationRecord
   has_many :clients, through: :clients_documents, class_name: 'Client'
 
   accepts_nested_attributes_for :users_documents, :users, allow_destroy: true
-
   validates :description, :title, presence: true
   validates :title, uniqueness: true
   validates :activity, presence: true

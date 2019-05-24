@@ -6,7 +6,6 @@
     <tr>
       <th><%= t('activerecord.attributes.document.client') %></th>
       <th></th>
-      <th></th>
     </tr>
     </thead>
     <tbody>
@@ -15,9 +14,7 @@
         <td>
           <%= client_document.client.name %>
         </td>
-        <td>
-          <%= client_document.participant_hours_fields%>
-        </td>
+
 
         <td>
           <%= link_to edit_admin_document_clients_document_path(client_document.document_id, client_document.id),
@@ -36,8 +33,9 @@
                               placement: 'top' } do %>
             <i class="fe fe-trash-2"></i>
           <% end %>
+        </td>
 
-          </tr>
+      </tr>
     <% end %>
     </tbody>
   </table>

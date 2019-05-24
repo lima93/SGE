@@ -10,7 +10,8 @@
           <div class="dropdown d-none d-md-flex">
             <%= link_to admin_users_documents_subscriptions_path, class: 'nav-link icon' do %>
               <i class="fe fe-bell"></i>
-              <% if User.signature(current_user) %>
+              <% user = User.signature(current_user)  %>
+              <% if !user.blank?  %>
                 <span class="nav-unread"></span>
               <% end %>
             <% end %>

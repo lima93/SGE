@@ -13,7 +13,10 @@ Rails.application.routes.draw do
     namespace :admin do
       root to: 'home#index'
       resources :documents, constraints: { id: /[0-9]+/ }, concerns: :paginatable do
-        resources :clients_documents, except: [:show]
+        resources :clients_documents, except: [:show] do
+          collection {post :import}
+        end
+
       end
       get 'documents/subscriptions',
           to: 'documents#subscriptions',
@@ -50,6 +53,7 @@ Rails.application.routes.draw do
   authenticate :client do
     namespace :participants do
       root to: 'home#index'
+      resources :documents, constraints: { id: /[0-9]+/ }, concerns: :paginatable
     end
   end
 end

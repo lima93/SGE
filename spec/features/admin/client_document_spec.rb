@@ -19,7 +19,6 @@ RSpec.describe 'Admin::ClientDocument', type: :feature do
     it 'show all particpants with options' do
       ClientsDocument.all.each do |cd|
         expect(page).to have_content(cd.client.name)
-        expect(page).to have_content(cd.participant_hours_fields)
       end
     end
   end
@@ -78,7 +77,6 @@ RSpec.describe 'Admin::ClientDocument', type: :feature do
         expect(page).to have_flash(:success, text: I18n.t('flash.actions.update.m',
                                                           model: model_name))
         expect(page).to have_content(client2.name)
-        expect(page).to have_content('hora_1' => '11')
       end
     end
 
