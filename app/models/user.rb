@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   attr_writer :login
+  mount_uploader :signature_image, SignatureImageUploader
 
   include PrettyCPF
   include LoginAuthentication

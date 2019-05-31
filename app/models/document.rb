@@ -14,6 +14,7 @@ class Document < ApplicationRecord
   validates :title, uniqueness: true
   validates :activity, presence: true
   validates :kind, inclusion: { in: Document.kinds.values }
+  validates :key_code, uniqueness: true, on: :create
 
   def self.search(search)
     if search

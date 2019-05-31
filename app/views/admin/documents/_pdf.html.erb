@@ -17,6 +17,9 @@
         <%= raw(@document.description) %>
       </div>
 
+      <div id="document_users_description">
+        <%= signature(@document, 'description') %>
+      </div>
     </div>
   </div>
 </div>
@@ -24,15 +27,11 @@
 <div class="a4_vertical bg-gray-lightest">
   <div class="row">
     <div class="col-12">
-      <div class="p-9 pt-0" id="document_activity_view">
+      <div class="p-5 pt-0" id="document_activity_view">
         <%= raw(@document.activity) %>
       </div>
-      <div id="document_users">
-        <% @document.users_documents.each do |user_document| %>
-          <h4 class="text-center text-capitalize"><%= user_document.user.try(:name) %></h4>
-          <h6 class="text-center text-capitalize"><%= user_document.function %></h6>
-          <br>
-        <% end %>
+      <div id="document_users_activity">
+        <%= signature(@document, 'activity') %>
       </div>
     </div>
   </div>

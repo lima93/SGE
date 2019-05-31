@@ -8,6 +8,8 @@
     <p class="mb-4"><%= @user.registration_number %></p>
     <p class="mb-4"><%= @user.cpf.pretty %></p>
     <p class="mb-4"><%= t("helpers.boolean.user.#{@user.active}") %></p>
+    <p class="mb-4"><%= image_tag(@user.signature_image.thumb.url) %></p>
+
 
   </div>
 </div>

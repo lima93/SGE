@@ -6,6 +6,7 @@ CPFButton = (context) ->
       context.invoke 'editor.insertText', '{cpf}'
   )
   button.render()
+
 NameButton = (context) ->
   ui = $.summernote.ui
   button = ui.button(
@@ -14,7 +15,6 @@ NameButton = (context) ->
       context.invoke 'editor.insertText', '{nome}'
   )
   button.render()
-
 
 TimeActivityButton = (context) ->
   ui = $.summernote.ui
@@ -33,18 +33,22 @@ TimeActivityButton = (context) ->
   )
   button.render()
 
-TotalHoursButton = (context) ->
-  counter = 0
+SignatureButton = (context) ->
   ui = $.summernote.ui
+  counter = 0
+  cc = new Array()
   button = ui.button(
-    contents: '<i>Total de Horas</i>'
+    contents: '<i>Assinatura</i>'
     click: ->
-      counter++
-      context.invoke 'editor.insertText', '{total_horas}'
+      text = $('div.note-editable').text()
+      array = text.match(/{assinatura_[0-9]*}/g)
+      if array == null
+        counter++
+      else
+        counter = array.length + 1
+      context.invoke 'editor.insertText', '{assinatura_' + counter + '}'
   )
   button.render()
-
-
 
 $(document).on 'turbolinks:load', ->
   $('[data-provider="summernote"]').each ->
@@ -61,14 +65,14 @@ $(document).on 'turbolinks:load', ->
         ['insert', ['link']],
         ['view', ['codeview']],
         ['help', ['help']],
-        ['person', ['cpf', 'name']],
-        ['activity', ['hora_atividade', 'total_horas']]
+        ['person', ['cpf', 'name', 'assinatura']],
+        ['activity', ['hora_atividade']]
       ]
       buttons:
         cpf: CPFButton
         name: NameButton
         hora_atividade: TimeActivityButton
-        total_horas: TotalHoursButton
+        assinatura: SignatureButton
 
 
   $('div').removeClass('card-header').addClass('panel-heading')

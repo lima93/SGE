@@ -14,6 +14,15 @@
   <%= f.input :cpf %>
   <%= f.input :active, as: :checkbox_tabler %>
 
+    <div class="custom-file mb-5">
+    <%= f.file_field :signature_image, class: 'custom-file-input' %>
+    <%= f.label :signature_image, class: 'custom-file-label' %>
+      <%# if f.object.signature_image %>
+        <%#= image_tag f.object.signature_image.thumb.url %>
+        <%#= f.label :remove_image %>
+        <%#= f.check_box :remove_image %>
+      <%# end %>
+    </div>
   <div class='d-flex'>
     <%= link_to t('helpers.links.all.m', model: t('activerecord.models.user.other')),
                 admin_users_path, class: 'btn btn-secondary' %>

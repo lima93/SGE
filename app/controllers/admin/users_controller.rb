@@ -65,6 +65,7 @@ class Admin::UsersController < Admin::BaseController
     params.require(:user).permit(:name,
                                  :username,
                                  :alternative_email,
+                                 :signature_image,
                                  :registration_number, :cpf, :active)
   end
 end

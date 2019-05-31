@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_23_001350) do
+ActiveRecord::Schema.define(version: 2019_05_28_011122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2019_05_23_001350) do
     t.boolean "admin", default: false
     t.boolean "support", default: false
     t.string "alternative_email"
+    t.string "signature_image"
     t.index ["cpf"], name: "index_users_on_cpf", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["registration_number"], name: "index_users_on_registration_number", unique: true
@@ -68,6 +69,8 @@ ActiveRecord::Schema.define(version: 2019_05_23_001350) do
     t.string "function"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "owner", default: false
+    t.datetime "signature_datetime"
     t.index ["document_id", "user_id"], name: "index_users_documents_on_document_id_and_user_id", unique: true
     t.index ["document_id"], name: "index_users_documents_on_document_id"
     t.index ["user_id"], name: "index_users_documents_on_user_id"

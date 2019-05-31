@@ -185,3 +185,4 @@ pt-BR:
         password: 'Senha'
         password_confirmation: 'Confirmação de senha'
         remember_me: 'Lembre-me'
+        signature_image: 'Assinatura Imagem'

@@ -75,6 +75,10 @@ GEM
       rack (>= 1.6.0)
       rack-test (>= 0.6.3)
       xpath (~> 3.1)
+    carrierwave (1.3.1)
+      activemodel (>= 4.0.0)
+      activesupport (>= 4.0.0)
+      mime-types (>= 1.16)
     childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
     cocoon (1.2.12)
@@ -167,7 +171,11 @@ GEM
     marcel (0.3.2)
       mimemagic (~> 0.3.2)
     method_source (0.9.0)
+    mime-types (3.2.2)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2019.0331)
     mimemagic (0.3.2)
+    mini_magick (4.9.3)
     mini_mime (1.0.1)
     mini_portile2 (2.3.0)
     minitest (5.11.3)
@@ -183,6 +191,7 @@ GEM
     parallel (1.12.1)
     parser (2.5.1.2)
       ast (~> 2.4.0)
+    pdfkit (0.8.4.1)
     pg (0.20.0)
     popper_js (1.14.3)
     powerpack (0.1.2)
@@ -226,6 +235,8 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
+    render_anywhere (0.0.12)
+      rails (>= 3.0.7)
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
@@ -327,6 +338,7 @@ GEM
     websocket-driver (0.7.0)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.3)
+    wkhtmltopdf-binary (0.12.4)
     xpath (3.1.0)
       nokogiri (~> 1.8)
 
@@ -341,6 +353,7 @@ DEPENDENCIES
   brakeman
   byebug
   capybara (>= 2.15, < 4.0)
+  carrierwave (~> 1.0)
   cocoon
   coffee-rails (~> 4.2)
   database_cleaner
@@ -354,10 +367,13 @@ DEPENDENCIES
   jquery-ui-rails (~> 6.0.1)
   kaminari
   listen (>= 3.0.5, < 3.2)
+  mini_magick (~> 4.3)
+  pdfkit
   pg (= 0.20.0)
   puma (~> 3.11)
   rails (~> 5.2.0)
   rails-i18n (~> 5.1)
+  render_anywhere
   rspec-rails (~> 3.7)
   rubocop
   rubocop-rspec
@@ -374,6 +390,7 @@ DEPENDENCIES
   tzinfo-data
   uglifier (>= 1.3.0)
   web-console (>= 3.3.0)
+  wkhtmltopdf-binary
 
 RUBY VERSION
    ruby 2.5.1p57

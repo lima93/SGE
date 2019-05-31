@@ -14,9 +14,9 @@
         <h1 class="pt-9 text-uppercase " id="document_kind"><%= t("enums.kinds.#{@document.try(:kind)}") %></h1>
       </div>
       <div class="p-7 pt-0" id="document_description_view">
-        <%= raw(sub_hash_fields(@document, 'description'))%>
+        <%= raw(sub_hash_fields(@document, 'description')) %>
       </div>
-
+      <%= signature(@document, 'description') %>
     </div>
   </div>
 </div>
@@ -24,16 +24,27 @@
 <div class="a4_vertical bg-gray-lightest">
   <div class="row">
     <div class="col-12">
-      <div class="p-9 pt-0" id="document_activity_view">
-
-        <%= raw(sub_hash_fields(@document, 'activity'))%>
+      <div class="px-5 pt-0" id="document_activity_view">
+        <%= raw(sub_hash_fields(@document, 'activity')) %>
       </div>
-      <div id="document_users">
+      <%= signature(@document, 'activity') %>
+      <table class="table">
+        <tbody>
         <% @document.users_documents.each do |user_document| %>
-          <h4 class="text-center text-capitalize"><%= user_document.user.try(:name) %></h4>
-          <h6 class="text-center text-capitalize"><%= user_document.function %></h6>
-          <br>
+          <tr>
+            <td><p class="mx-5 my-0 small">Documento assinado eletronicamente por <strong><%= user_document.user.try(:name)  %> </strong> em
+              <%= user_document.signature_datetime.strftime("%d/%m/%Y ás %H:%M") %>, conforme horário oficial de
+              Brasilia, com fundamento no art. 6º. § 1º,
+              do  <%= link_to 'DECRETO Nº 8.539, DE 8 DE OUTUBRO DE 2015', 'http://www.planalto.gov.br/ccivil_03/_Ato2015-2018/2015/Decreto/D8539.htm' %> </p>
+            </td>
+          </tr>
         <% end %>
+        </tbody>
+      </table>
+
+      <div class="mx-5 my-0 small">
+      <p>Código de autenticação: <strong><%= @document.key_code %></strong></p>
+      <p>Para conferir a autenticidade do documento acesse:</p>
       </div>
     </div>
   </div>

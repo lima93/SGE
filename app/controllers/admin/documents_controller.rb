@@ -20,7 +20,8 @@ class Admin::DocumentsController < Admin::BaseController
 
   def create
     @document = Document.new(document_params)
-    @document.user_id = current_user.id
+    @document.users_documents.build(document_id: @document.id, user_id: current_user.id, function: "Responsável pelo Registro", owner: true)
+    @document.key_code = SecureRandom.urlsafe_base64(nil, false)
     if @document.save
       flash[:success] = t('flash.actions.create.m',
                           model: t('activerecord.models.document.one'))
@@ -37,7 +38,7 @@ class Admin::DocumentsController < Admin::BaseController
     if @document.request_signature?
       flash[:alert] = t('flash.actions.request_signature.update')
       redirect_to admin_documents_path
-    elsif @document.user_id != current_user.id
+    elsif !UsersDocument.user_owner?(@document.users_documents, current_user)
       flash[:alert] = "Não tem permissão"
       redirect_to admin_documents_path
     end
@@ -45,10 +46,14 @@ class Admin::DocumentsController < Admin::BaseController
 
   def update
     if @document.update(document_params)
+      @document.users_documents.build(document_id: @document.id, user_id: current_user.id, function: "Responsável pelo Registro", owner: true)
+      @document.save
       flash[:success] = t('flash.actions.update.m',
                           model: t('activerecord.models.document.one'))
       redirect_to admin_documents_path
     else
+      puts @document.errors.full_messages
+      puts 'aqui'
       flash.now[:error] = t('flash.actions.errors')
       render :edit
     end
@@ -75,6 +80,7 @@ class Admin::DocumentsController < Admin::BaseController
     @user = User.auth(params[:document][:login], params[:document][:password])
     if current_user == @user
       @user_documents = UsersDocument.find_by(document_id: params[:id], user_id: @user)
+      @user_documents.signature_datetime = Time.zone.now
       UsersDocument.toggle_subscription(@user_documents)
       flash[:success] = t('flash.actions.sign.valid.m')
       redirect_to admin_users_documents_subscriptions_path
@@ -118,6 +124,7 @@ class Admin::DocumentsController < Admin::BaseController
                                      :kind, :activity,
                                      :participants,
                                      :title,
+                                     :key_code,
                                      users_documents_attributes: [:id, :user_id,
                                                                   :function,
                                                                   :_destroy])
