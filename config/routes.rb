@@ -3,6 +3,15 @@ Rails.application.routes.draw do
   concern :paginatable do
     get '(page/:page)', action: :index, on: :collection, as: ''
   end
+  #========================================
+  # Public area to user
+  #========================================
+
+  resources :documents, only: [:index]
+  get 'documents/search/(:code)',
+      to: 'documents#search',
+      as: 'document_search'
+
 
   resources :my_resources, concerns: :paginatable
   #========================================
@@ -14,7 +23,7 @@ Rails.application.routes.draw do
       root to: 'home#index'
       resources :documents, constraints: { id: /[0-9]+/ }, concerns: :paginatable do
         resources :clients_documents, except: [:show] do
-          collection {post :import}
+          collection { post :import }
         end
 
       end
@@ -53,7 +62,8 @@ Rails.application.routes.draw do
   authenticate :client do
     namespace :participants do
       root to: 'home#index'
-      resources :documents, constraints: { id: /[0-9]+/ }, concerns: :paginatable
+      resources :documents, constraints: { id: /[0-9]+/ }, concerns: :paginatable, only: [:show, :index]
+      get 'documents/download/:id', to: 'documents#download', as: 'documents_download'
     end
   end
 end

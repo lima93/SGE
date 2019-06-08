@@ -1,0 +1,12 @@
+<% provide(:head_title, t('activerecord.models.document.other')) %>
+<% provide(:page_title, t('activerecord.models.document.other')) %>
+
+<div class="input-icon my-3 my-lg-0">
+  <%= text_field_tag :search, params[:code], id: 'users_search_input',
+                     data: { url: document_search_path },
+                     class: 'form-control',
+                     placeholder: 'Search...' %>
+  <div class="input-icon-addon">
+    <i class="fe fe-search"></i>
+  </div>
+</div>

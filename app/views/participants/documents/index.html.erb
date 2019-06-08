@@ -21,7 +21,13 @@
         <td><%= t("enums.kinds.#{document.kind}") %></td>
         <td><%= document.created_at.strftime("%d-%m-%Y") %></td>
         <td>
-          <%= link_to participants_document_path(document),
+          <%= link_to participants_documents_download_path(document),
+                      method: :get, class: 'icon',
+                      title: 'Download',
+                      data: { toggle: 'tooltip', placement: 'top' } do %>
+            <i class="fe fe-eye"></i>
+          <% end %>
+          <%= link_to participants_document_path(document, format: 'pdf'),
                       method: :get, class: 'icon',
                       title: t('helpers.links.show.m',
                                model: t('activerecord.models.document.one')),

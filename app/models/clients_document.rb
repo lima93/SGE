@@ -6,6 +6,7 @@ class ClientsDocument < ApplicationRecord
   validates :client_id, presence: true
   validate :json_input_field
   validates :client_id, uniqueness: { scope: :document }
+  validates :key_code, uniqueness: true, on: :create
 
   def self.hash_fields(id)
     hash_field = to_hash_fields(id)
@@ -55,6 +56,7 @@ class ClientsDocument < ApplicationRecord
     hash_fields.push(*d.activity.scan(/{\w[0-9a-zA-Z_]*}/))
     hash_fields.delete("{nome}")
     hash_fields.delete("{cpf}")
+    hash_fields.delete_if { |k,_| /{assinatura_[0-9]*}/ ===  k }
     hash_fields
   end
 

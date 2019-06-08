@@ -29,8 +29,6 @@ module Participants::DocumentsHelper
       else
         ad = document.description.scan(/{assinatura_[0-9]*}/)
         a = document.send(column).scan(/{assinatura_[0-9]*}/)
-        puts (a.length + ad.length)
-        puts 'aqui'
         render partial: 'participants/documents/signature', locals: { signature: document, inital: ad.length, final: (a.length + ad.length) }
       end
     end

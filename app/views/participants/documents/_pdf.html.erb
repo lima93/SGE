@@ -1,13 +1,16 @@
-<div class="a4_vertical bg-gray-lightest ">
-  <div class="row m-2 h-100">
-    <div class=" col-3">
-      <div class="linear-gradient-yellow h-100 w-100">
-        <%= image_tag 'utfpr.png', class: 'vertical-align-img pr-5', alt: "UTFPR" %>
+<div class="page" size="A4">
+  <table height="100%" width="100%">
+    <tbody>
+    <td height="100%" width="30%" class="align-bottom" style="background-image: -webkit-linear-gradient(rgb(254, 203, 41), white);">
+      <div>
+        <%= image_tag 'utfpr.png', alt: "UTFPR" %>
       </div>
-    </div>
-    <div class="col-9 pt-9">
+    </td>
+    <td height="100%" width="70%">
       <div class="text-center">
-        <%= image_tag 'brasao da republica_cor.jpg', class: "w-25 h-25", alt: "Brasão da República" %>
+        <%#= image_tag 'brasao da republica_cor.jpg', class: "w-25", alt: "Brasão da República" %>
+
+        <img class="w-25" alt="Brasão da República" src="/assets/brasao da republica_cor-d8a2cd6cacbc13f6efc21844727174d93d3be9d0b8c1401ab945b52698af6c0e.jpg">
         <p class="mb-0">República Federativa do Brasil</p>
         <p class="mb-0">Ministério da Educação</p>
         <h5>Universidade Tecnológica Federal do Paraná</h5>
@@ -17,35 +20,35 @@
         <%= raw(sub_hash_fields(@document, 'description')) %>
       </div>
       <%= signature(@document, 'description') %>
-    </div>
-  </div>
+    </td>
+    </tbody>
+  </table>
 </div>
-<hr>
-<div class="a4_vertical bg-gray-lightest">
-  <div class="row">
-    <div class="col-12">
-      <div class="px-5 pt-0" id="document_activity_view">
-        <%= raw(sub_hash_fields(@document, 'activity')) %>
-      </div>
-      <%= signature(@document, 'activity') %>
-      <table class="table">
-        <tbody>
-        <% @document.users_documents.each do |user_document| %>
-          <tr>
-            <td><p class="mx-5 my-0 small">Documento assinado eletronicamente por <strong><%= user_document.user.try(:name)  %> </strong> em
-              <%= user_document.signature_datetime.strftime("%d/%m/%Y ás %H:%M") %>, conforme horário oficial de
-              Brasilia, com fundamento no art. 6º. § 1º,
-              do  <%= link_to 'DECRETO Nº 8.539, DE 8 DE OUTUBRO DE 2015', 'http://www.planalto.gov.br/ccivil_03/_Ato2015-2018/2015/Decreto/D8539.htm' %> </p>
-            </td>
-          </tr>
-        <% end %>
-        </tbody>
-      </table>
-
-      <div class="mx-5 my-0 small">
-      <p>Código de autenticação: <strong><%= @document.key_code %></strong></p>
-      <p>Para conferir a autenticidade do documento acesse:</p>
-      </div>
-    </div>
+<div class="page" size="A4">
+  <div class="px-5 pt-0" id="document_activity_view">
+    <%= raw(sub_hash_fields(@document, 'activity')) %>
   </div>
+  <%= signature(@document, 'activity') %>
+  <table class="table">
+    <tbody>
+    <% @document.users_documents.each do |user_document| %>
+      <tr>
+        <td><p class="mx-5 my-0 small">Documento assinado eletronicamente por
+          <strong><%= user_document.user.try(:name) %> </strong> em
+          <%= user_document.signature_datetime.strftime("%d/%m/%Y ás %H:%M") %>, conforme horário oficial de
+          Brasilia, com fundamento no art. 6º. § 1º,
+          do  <%= link_to 'DECRETO Nº 8.539, DE 8 DE OUTUBRO DE 2015', 'http://www.planalto.gov.br/ccivil_03/_Ato2015-2018/2015/Decreto/D8539.htm' %>
+        </p>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <div class="mx-5 my-0 small">
+    <p>Código de autenticação:
+      <strong><%= @document.clients_documents.find_by(client_id: current_client.id).key_code %></strong>
+    </p>
+    <p>Para conferir a autenticidade do documento acesse: <%= link_to nil, documents_url %></p>
+  </div>
+
 </div>

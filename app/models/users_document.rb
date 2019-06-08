@@ -10,7 +10,6 @@ class UsersDocument < ApplicationRecord
   def self.user_owner?(users_documents, user)
     users_documents.each do |ud|
       if ud.user == user && ud.owner?
-        puts "aqui"
         return true
       end
     end

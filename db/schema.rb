@@ -25,9 +25,11 @@ ActiveRecord::Schema.define(version: 2019_05_28_011122) do
     t.json "participant_hours_fields"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "key_code"
     t.index ["client_id"], name: "index_clients_documents_on_client_id"
     t.index ["document_id", "client_id"], name: "index_clients_documents_on_document_id_and_client_id", unique: true
     t.index ["document_id"], name: "index_clients_documents_on_document_id"
+    t.index ["key_code"], name: "index_clients_documents_on_key_code", unique: true
   end
 
 # Could not dump table "documents" because of following StandardError

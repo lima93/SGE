@@ -21,7 +21,6 @@ class Admin::DocumentsController < Admin::BaseController
   def create
     @document = Document.new(document_params)
     @document.users_documents.build(document_id: @document.id, user_id: current_user.id, function: "Responsável pelo Registro", owner: true)
-    @document.key_code = SecureRandom.urlsafe_base64(nil, false)
     if @document.save
       flash[:success] = t('flash.actions.create.m',
                           model: t('activerecord.models.document.one'))
@@ -52,8 +51,6 @@ class Admin::DocumentsController < Admin::BaseController
                           model: t('activerecord.models.document.one'))
       redirect_to admin_documents_path
     else
-      puts @document.errors.full_messages
-      puts 'aqui'
       flash.now[:error] = t('flash.actions.errors')
       render :edit
     end
@@ -124,7 +121,6 @@ class Admin::DocumentsController < Admin::BaseController
                                      :kind, :activity,
                                      :participants,
                                      :title,
-                                     :key_code,
                                      users_documents_attributes: [:id, :user_id,
                                                                   :function,
                                                                   :_destroy])

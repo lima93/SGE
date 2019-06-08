@@ -24,9 +24,8 @@ gem 'summernote-rails', '~> 0.8.10.0'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
 gem 'pdfkit'
-gem 'render_anywhere'
 gem 'wkhtmltopdf-binary'
-
+gem 'unicorn'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

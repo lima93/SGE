@@ -11,14 +11,16 @@
   height: 793px;
 }
 
-.vertical-align-img {
-  position: absolute;
-  bottom: 0;
-}
 
 .linear-gradient-yellow {
   background-image: linear-gradient(rgb(254, 203, 41), white);
 }
+
 .modal-lg {
   min-width: 70%;
+}
+
+.page[size="A4"] {
+  width: 310mm;
+  height: 455mm;
 }

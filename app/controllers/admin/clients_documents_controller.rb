@@ -26,6 +26,7 @@ class Admin::ClientsDocumentsController < Admin::BaseController
   def create
     document = Document.find(params[:document_id])
     @clients_documents = document.clients_documents.create(clients_document_params)
+    @clients_documents.key_code = SecureRandom.urlsafe_base64(nil, false)
     if @clients_documents.save
       flash[:success] = t('flash.actions.create.m',
                           model: t('activerecord.models.clients_document.one'))
@@ -77,7 +78,11 @@ class Admin::ClientsDocumentsController < Admin::BaseController
   private
 
   def clients_document_params
-    params.require(:clients_document).permit(:id, :client_id, :document_id, :csv,
+    params.require(:clients_document).permit(:id,
+                                             :client_id,
+                                             :document_id,
+                                             :csv,
+                                             :key_code,
                                              participant_hours_fields: {})
   end
 

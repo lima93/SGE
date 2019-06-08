@@ -1,22 +1,27 @@
 <div id="document_users">
-  <div class="row">
-  <% signature.users_documents.each_with_index do |user_document, index| %>
-    <% if index >= inital && index < final %>
+  <table width="100%">
+    <tbody>
+    <tr>
+      <% signature.users_documents.each_with_index do |user_document, index| %>
+        <% if index >= inital && index < final %>
 
-        <div class="col-<%= 12 / (final - inital) %> p-0 m-0">
-          <% if user_document.user.signature_image.present? %>
-            <div class="text-center">
-              <%= image_tag(user_document.user.signature_image.thumb.url) %>
-            </div>
-          <% else %>
-            <div style="height:100px;"></div>
-          <% end %>
-          <h4 class="text-center text-capitalize"><%= user_document.user.try(:name) %></h4>
-          <h6 class="text-center text-capitalize"><%= user_document.function %></h6>
-          <br>
-        </div>
+          <td width="<%= 100 / (final - inital) %>%">
+            <% if user_document.user.signature_image.present? %>
+              <div class="text-center">
+                <%= image_tag(user_document.user.signature_image.thumb.url) %>
+              </div>
+            <% else %>
+              <div style="height:100px;"></div>
+            <% end %>
+            <h4 class="text-center text-capitalize"><%= user_document.user.try(:name) %></h4>
+            <h6 class="text-center text-capitalize"><%= user_document.function %></h6>
+            <br>
 
-    <% end %>
-  <% end %>
-  </div>
+
+        <% end %>
+        </td>
+      <% end %>
+    </tr>
+    </tbody>
+  </table>
 </div>

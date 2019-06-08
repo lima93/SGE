@@ -1,7 +1,7 @@
 require_relative 'boot'
 
 require 'rails/all'
-
+require 'pdfkit'
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -23,5 +23,6 @@ module Sge
     config.time_zone = 'Brasilia'
 
     ENV.update YAML.load_file('config/application.yml')[Rails.env]
+    config.middleware.use PDFKit::Middleware, { print_media_type: true }, only: '/participants/documents/'
   end
 end

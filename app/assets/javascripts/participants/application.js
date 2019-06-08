@@ -19,6 +19,7 @@
 
 // App files
 //--------------------
+//= require lib/input_search
 //= require participants/loads
 //= require participants/client
 
