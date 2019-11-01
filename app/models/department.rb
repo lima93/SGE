@@ -11,7 +11,10 @@ class Department < ApplicationRecord
             uniqueness: true,
             length: { maximum: 255 },
             format: { with: VALID_EMAIL_REGEX }
-
+  has_many :divisions,
+           foreign_key: 'department_id',
+           dependent: :destroy,
+           inverse_of: :department
   has_many :department_users, dependent: :destroy
   has_many :departments, through: :department_users
   has_many :users, through: :department_users
@@ -38,11 +41,8 @@ class Department < ApplicationRecord
     self[:initials] = initials.to_s.upcase # The to_s is in case you get nil/non-string
   end
 
-  # def add_member(member, role)
-  #   department_users.create(user: member, role: Role.find_by(flag: role))
-  # end
-  #
-  # def remove_member(member, role)
-  #   department_users.destroy(user: member, role: Role.find_by(flag: role))
-  # end
+  def self.manager(user)
+    joins(:department_users).where(department_users: { role_id: Role.find_by(identifier: 'manager'),
+                                                       user_id: user })
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_03_002909) do
+ActiveRecord::Schema.define(version: 2019_10_07_233618) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,11 +41,31 @@ ActiveRecord::Schema.define(version: 2019_07_03_002909) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "division_users", force: :cascade do |t|
+    t.bigint "division_id"
+    t.bigint "user_id"
+    t.bigint "role_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["division_id"], name: "index_division_users_on_division_id"
+    t.index ["role_id"], name: "index_division_users_on_role_id"
+    t.index ["user_id"], name: "index_division_users_on_user_id"
+  end
+
+  create_table "divisions", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "department_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "name"
     t.string "identifier"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "department", default: false
     t.index ["identifier"], name: "index_roles_on_identifier"
   end
 
