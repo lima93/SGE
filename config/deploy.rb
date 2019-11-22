@@ -1,4 +1,4 @@
-lock '3.11.0'
+lock '3.11.2'
 
 set :stages, ['production']
 
