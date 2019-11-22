@@ -2,7 +2,7 @@ lock '3.11.2'
 
 set :stages, ['production']
 
-set :application,     'walgprog'
+set :application,     'SGE'
 set :branch,          'production'
 
 set :user,            'deployer'
