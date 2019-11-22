@@ -17,9 +17,8 @@ User.create_with(name: 'Servidor',
 Client.create_with(name: 'Participante',
                    cpf: '36688844044',
                    email: 'participante@gmail.com',
-                   password: '123456',
-                   kind: Client.kinds.values.sample
-                   ).find_or_create_by(email: 'participante@gmail.com')
+                   kind: Client.kinds.values.sample,
+                   password: '123456').find_or_create_by(email: 'participante@gmail.com')
 roles = [
   ['Chefe de Departamento', :manager, true],
   ['Membro do Departamento', :member_department, true],
